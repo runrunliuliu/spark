@@ -8,11 +8,9 @@ import scala.collection.mutable.HashMap
 import scala.collection.mutable.HashSet
 
 import akka.actor._
-import akka.dispatch._
 import akka.pattern.ask
 import akka.remote._
 import akka.util.Duration
-import akka.util.Timeout
 import akka.util.duration._
 
 import spark.scheduler.MapStatus

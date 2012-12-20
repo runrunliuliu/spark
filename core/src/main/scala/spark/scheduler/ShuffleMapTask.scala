@@ -5,7 +5,6 @@ import java.util.{HashMap => JHashMap}
 import java.util.zip.{GZIPInputStream, GZIPOutputStream}
 
 import scala.collection.mutable.{ArrayBuffer, HashMap}
-import scala.collection.JavaConversions._
 
 import it.unimi.dsi.fastutil.io.FastBufferedOutputStream
 

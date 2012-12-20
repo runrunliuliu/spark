@@ -1,6 +1,6 @@
 package spark.deploy.worker
 
-import scala.collection.mutable.{ArrayBuffer, HashMap}
+import scala.collection.mutable.HashMap
 import akka.actor.{ActorRef, Props, Actor}
 import spark.{Logging, Utils}
 import spark.util.AkkaUtils

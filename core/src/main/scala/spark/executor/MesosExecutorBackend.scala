@@ -2,7 +2,7 @@ package spark.executor
 
 import java.nio.ByteBuffer
 import org.apache.mesos.{Executor => MesosExecutor, MesosExecutorDriver, MesosNativeLibrary, ExecutorDriver}
-import org.apache.mesos.Protos.{TaskState => MesosTaskState, TaskStatus => MesosTaskStatus, _}
+import org.apache.mesos.Protos.{TaskState => MesosTaskState, TaskStatus => MesosTaskStatus}
 import spark.TaskState.TaskState
 import com.google.protobuf.ByteString
 import spark.{Utils, Logging}

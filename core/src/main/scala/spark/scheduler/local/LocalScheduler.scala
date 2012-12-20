@@ -1,7 +1,6 @@
 package spark.scheduler.local
 
 import java.io.File
-import java.net.URLClassLoader
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicInteger
 import scala.collection.mutable.HashMap

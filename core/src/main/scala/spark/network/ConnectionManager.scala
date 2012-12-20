@@ -12,7 +12,6 @@ import scala.collection.mutable.HashMap
 import scala.collection.mutable.SynchronizedMap
 import scala.collection.mutable.SynchronizedQueue
 import scala.collection.mutable.Queue
-import scala.collection.mutable.ArrayBuffer
 
 import akka.dispatch.{Await, Promise, ExecutionContext, Future}
 import akka.util.Duration

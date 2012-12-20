@@ -1,7 +1,6 @@
 package spark
 
 import akka.actor.ActorSystem
-import akka.actor.ActorSystemImpl
 import akka.remote.RemoteActorRefProvider
 
 import serializer.Serializer

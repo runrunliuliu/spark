@@ -1,7 +1,6 @@
 package spark.scheduler
 
-import scala.collection.mutable.HashMap
-import spark.serializer.{SerializerInstance, Serializer}
+import spark.serializer.SerializerInstance
 import java.io.{DataInputStream, DataOutputStream}
 import java.nio.ByteBuffer
 import it.unimi.dsi.fastutil.io.FastByteArrayOutputStream

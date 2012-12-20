@@ -11,10 +11,10 @@ import java.io.{InputStream, OutputStream, Externalizable, ObjectInput, ObjectOu
 import java.nio.{MappedByteBuffer, ByteBuffer}
 import java.util.concurrent.{ConcurrentHashMap, LinkedBlockingQueue}
 
-import scala.collection.mutable.{ArrayBuffer, HashMap, HashSet, Queue}
+import scala.collection.mutable.{ArrayBuffer, HashSet, Queue}
 import scala.collection.JavaConversions._
 
-import spark.{CacheTracker, Logging, SizeEstimator, SparkEnv, SparkException, Utils}
+import spark.{CacheTracker, Logging, SparkException, Utils}
 import spark.network._
 import spark.serializer.Serializer
 import spark.util.ByteBufferInputStream

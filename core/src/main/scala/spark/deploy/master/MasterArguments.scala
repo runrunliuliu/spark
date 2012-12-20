@@ -10,7 +10,7 @@ private[spark] class MasterArguments(args: Array[String]) {
   var ip = Utils.localHostName()
   var port = 7077
   var webUiPort = 8080
-  
+
   // Check for settings in environment variables 
   if (System.getenv("SPARK_MASTER_IP") != null) {
     ip = System.getenv("SPARK_MASTER_IP")
@@ -21,7 +21,7 @@ private[spark] class MasterArguments(args: Array[String]) {
   if (System.getenv("SPARK_MASTER_WEBUI_PORT") != null) {
     webUiPort = System.getenv("SPARK_MASTER_WEBUI_PORT").toInt
   }
-  
+
   parse(args.toList)
 
   def parse(args: List[String]): Unit = args match {
@@ -52,11 +52,11 @@ private[spark] class MasterArguments(args: Array[String]) {
   def printUsageAndExit(exitCode: Int) {
     System.err.println(
       "Usage: Master [options]\n" +
-      "\n" +
-      "Options:\n" +
-      "  -i IP, --ip IP         IP address or DNS name to listen on\n" +
-      "  -p PORT, --port PORT   Port to listen on (default: 7077)\n" +
-      "  --webui-port PORT      Port for web UI (default: 8080)")
+        "\n" +
+        "Options:\n" +
+        "  -i IP, --ip IP         IP address or DNS name to listen on\n" +
+        "  -p PORT, --port PORT   Port to listen on (default: 7077)\n" +
+        "  --webui-port PORT      Port for web UI (default: 8080)")
     System.exit(exitCode)
   }
 }

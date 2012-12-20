@@ -7,10 +7,9 @@ import scala.collection.mutable.{ArrayBuffer, HashMap, HashSet}
 import scala.util.Random
 
 import akka.actor._
-import akka.dispatch._
 import akka.pattern.ask
 import akka.remote._
-import akka.util.{Duration, Timeout}
+import akka.util.Duration
 import akka.util.duration._
 
 import spark.{Logging, SparkException, Utils}

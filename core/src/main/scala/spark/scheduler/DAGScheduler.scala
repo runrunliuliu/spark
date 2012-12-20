@@ -1,19 +1,15 @@
 package spark.scheduler
 
-import java.net.URI
 import java.util.concurrent.atomic.AtomicInteger
-import java.util.concurrent.Future
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.TimeUnit
 
-import scala.collection.mutable.{ArrayBuffer, HashMap, HashSet, Queue, Map}
+import scala.collection.mutable.{ArrayBuffer, HashMap, HashSet, Map}
 
 import spark._
 import spark.partial.ApproximateActionListener
 import spark.partial.ApproximateEvaluator
 import spark.partial.PartialResult
-import spark.storage.BlockManagerMaster
-import spark.storage.BlockManagerId
 
 /**
  * A Scheduler subclass that implements stage-oriented scheduling. It computes a DAG of stages for 

@@ -5,7 +5,6 @@ import java.util.{Map => JMap}
 
 import scala.collection.mutable.HashMap
 import scala.collection.Map
-import scala.collection.JavaConversions.mapAsScalaMap
 
 import spark.util.StatCounter
 

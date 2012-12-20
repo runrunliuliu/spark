@@ -1,6 +1,5 @@
 package spark.rdd
 
-import spark.Dependency
 import spark.OneToOneDependency
 import spark.RDD
 import spark.SparkContext
