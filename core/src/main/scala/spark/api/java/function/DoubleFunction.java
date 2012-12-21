@@ -1,6 +1,8 @@
 package spark.api.java.function;
 
 
+import scala.runtime.AbstractFunction1;
+
 import java.io.Serializable;
 
 /**

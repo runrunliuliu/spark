@@ -1,6 +1,8 @@
 package spark
 
-import java.io.File
+import java.io.{File, PrintWriter}
+import java.net.URL
+import scala.collection.mutable.HashMap
 import org.apache.hadoop.fs.FileUtil
 
 private[spark] class HttpFileServer extends Logging {

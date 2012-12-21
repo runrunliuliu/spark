@@ -9,6 +9,7 @@ import org.apache.hadoop.io.Text
 import java.text.SimpleDateFormat
 import java.text.NumberFormat
 import java.io.IOException
+import java.net.URI
 import java.util.Date
 
 import spark.Logging

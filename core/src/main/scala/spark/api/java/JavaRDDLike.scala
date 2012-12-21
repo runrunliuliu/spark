@@ -9,7 +9,7 @@ import spark.storage.StorageLevel
 import java.util.{List => JList}
 
 import scala.collection.JavaConversions._
-import java.lang
+import java.{util, lang}
 import scala.Tuple2
 
 trait JavaRDDLike[T, This <: JavaRDDLike[T, This]] extends Serializable {
@@ -196,6 +196,7 @@ trait JavaRDDLike[T, This <: JavaRDDLike[T, This]] extends Serializable {
    * Return an array that contains all of the elements in this RDD.
    */
   def collect(): JList[T] = {
+    import scala.collection.JavaConversions._
     val arr: java.util.Collection[T] = rdd.collect().toSeq
     new java.util.ArrayList(arr)
   }
@@ -273,11 +274,13 @@ trait JavaRDDLike[T, This <: JavaRDDLike[T, This]] extends Serializable {
    * whole RDD instead.
    */
   def take(num: Int): JList[T] = {
+    import scala.collection.JavaConversions._
     val arr: java.util.Collection[T] = rdd.take(num).toSeq
     new java.util.ArrayList(arr)
   }
 
   def takeSample(withReplacement: Boolean, num: Int, seed: Int): JList[T] = {
+    import scala.collection.JavaConversions._
     val arr: java.util.Collection[T] = rdd.takeSample(withReplacement, num, seed).toSeq
     new java.util.ArrayList(arr)
   }

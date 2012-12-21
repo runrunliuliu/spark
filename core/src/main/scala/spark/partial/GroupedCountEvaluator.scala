@@ -5,6 +5,7 @@ import java.util.{Map => JMap}
 
 import scala.collection.Map
 import scala.collection.mutable.HashMap
+import scala.collection.JavaConversions.mapAsScalaMap
 
 import cern.jet.stat.Probability
 

@@ -1,5 +1,6 @@
 package spark.scheduler
 
+import java.net.URI
 
 import spark._
 import spark.storage.BlockManagerId

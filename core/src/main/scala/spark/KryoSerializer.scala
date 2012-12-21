@@ -4,6 +4,7 @@ import java.io._
 import java.nio.ByteBuffer
 import java.nio.channels.Channels
 
+import scala.collection.immutable
 import scala.collection.mutable
 
 import com.esotericsoftware.kryo._

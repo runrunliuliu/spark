@@ -1,5 +1,6 @@
 package spark.rdd
 
+import scala.collection.mutable.HashMap
 
 import spark.Dependency
 import spark.RDD

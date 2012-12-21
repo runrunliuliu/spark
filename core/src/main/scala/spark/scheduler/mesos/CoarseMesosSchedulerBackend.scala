@@ -4,15 +4,16 @@ import com.google.protobuf.ByteString
 
 import org.apache.mesos.{Scheduler => MScheduler}
 import org.apache.mesos._
-import org.apache.mesos.Protos.{TaskInfo => MesosTaskInfo, TaskState => MesosTaskState}
+import org.apache.mesos.Protos.{TaskInfo => MesosTaskInfo, TaskState => MesosTaskState, _}
 
 import spark.{SparkException, Utils, Logging, SparkContext}
-import scala.collection.mutable.{HashMap, HashSet}
+import scala.collection.mutable.{ArrayBuffer, HashMap, HashSet}
 import scala.collection.JavaConversions._
 import java.io.File
 import spark.scheduler.cluster._
 import java.util.{ArrayList => JArrayList, List => JList}
 import java.util.Collections
+import spark.TaskState
 
 /**
  * A SchedulerBackend that runs tasks on Mesos, but uses "coarse-grained" tasks, where it holds

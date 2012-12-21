@@ -1,12 +1,13 @@
 package spark.deploy
 
-import akka.actor.{ActorRef, Props, ActorSystem}
+import akka.actor.{ActorRef, Props, Actor, ActorSystem, Terminated}
 
 import spark.deploy.worker.Worker
 import spark.deploy.master.Master
 import spark.util.AkkaUtils
 import spark.{Logging, Utils}
 
+import scala.collection.mutable.ArrayBuffer
 
 private[spark]
 class LocalSparkCluster(numSlaves: Int, coresPerSlave: Int, memoryPerSlave: Int) extends Logging {

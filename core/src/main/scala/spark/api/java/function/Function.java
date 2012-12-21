@@ -2,6 +2,7 @@ package spark.api.java.function;
 
 import scala.reflect.ClassManifest;
 import scala.reflect.ClassManifest$;
+import scala.runtime.AbstractFunction1;
 
 import java.io.Serializable;
 

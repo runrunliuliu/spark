@@ -1,5 +1,6 @@
 package spark.network
 
+import spark._
 
 import scala.collection.mutable.ArrayBuffer
 

@@ -2,6 +2,7 @@ package spark.rdd
 
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.io.Writable
+import org.apache.hadoop.mapreduce._
 
 import java.util.Date
 import java.text.SimpleDateFormat

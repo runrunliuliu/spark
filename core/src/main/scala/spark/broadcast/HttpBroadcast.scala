@@ -4,6 +4,7 @@ import com.ning.compress.lzf.{LZFInputStream, LZFOutputStream}
 
 import java.io._
 import java.net._
+import java.util.UUID
 
 import it.unimi.dsi.fastutil.io.FastBufferedInputStream
 import it.unimi.dsi.fastutil.io.FastBufferedOutputStream
