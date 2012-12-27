@@ -106,7 +106,8 @@ abstract class RDD[T: ClassManifest](@transient sc: SparkContext) extends Serial
   val id = sc.newRddId()
 
   // Variables relating to persistence
-  private var storageLevel: StorageLevel = StorageLevel.NONE
+  // private var storageLevel: StorageLevel = StorageLevel.NONE
+  private var storageLevel: StorageLevel = StorageLevel.MEMORY_ONLY
 
   /**
    * Set this RDD's storage level to persist its values across operations after the first time

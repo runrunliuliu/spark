@@ -215,7 +215,7 @@ private[spark] class BlockManagerMasterActor(val isLocal: Boolean) extends Actor
     val toRemove = new HashSet[BlockManagerId]
     for (info <- blockManagerInfo.values) {
       if (info.lastSeenMs < minSeenTime) {
-        logWarning("Removing BlockManager " + info.blockManagerId + " with no recent heart beats")
+        logDebug("Removing BlockManager " + info.blockManagerId + " with no recent heart beats")
         toRemove += info.blockManagerId
       }
     }
