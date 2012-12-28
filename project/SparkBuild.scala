@@ -87,7 +87,7 @@ object SparkBuild extends Build {
 
     libraryDependencies ++= Seq(
       "org.eclipse.jetty" % "jetty-server" % "7.5.3.v20111011",
-      "org.scalatest" %% "scalatest" % "1.6.1" % "test",
+      "org.scalatest" %% "scalatest" % "1.8" % "test",
       "org.scalacheck" %% "scalacheck" % "1.9" % "test",
       "com.novocode" % "junit-interface" % "0.8" % "test"
     ),
@@ -125,7 +125,7 @@ object SparkBuild extends Build {
       "org.apache.hadoop" % "hadoop-core" % HADOOP_VERSION,
       "asm" % "asm-all" % "3.3.1",
       "com.google.protobuf" % "protobuf-java" % "2.4.1",
-      "de.javakaffee" % "kryo-serializers" % "0.9",
+      "de.javakaffee" % "kryo-serializers" % "0.20",
       "com.typesafe.akka" % "akka-actor" % "2.0.3",
       "com.typesafe.akka" % "akka-remote" % "2.0.3",
       "com.typesafe.akka" % "akka-slf4j" % "2.0.3",

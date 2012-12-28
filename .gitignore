@@ -18,6 +18,7 @@ docs/_site
 docs/api
 target/
 reports/
+.gitignore
 .project
 .classpath
 .scala_dependencies
@@ -32,4 +33,4 @@ project/plugins/src_managed/
 logs/
 log/
 spark-tests.log
-.gitignore
+dependency-reduced-pom.xml

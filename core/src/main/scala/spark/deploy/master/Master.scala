@@ -83,12 +83,12 @@ private[spark] class Master(ip: String, port: Int, webUiPort: Int) extends Actor
       schedule()
     }
 
-    case ExecutorStateChanged(jobId, execId, state, message) => {
+    case ExecutorStateChanged(jobId, execId, state, message, exitStatus) => {
       val execOption = idToJob.get(jobId).flatMap(job => job.executors.get(execId))
       execOption match {
         case Some(exec) => {
           exec.state = state
-          exec.job.actor ! ExecutorUpdated(execId, state, message)
+          exec.job.actor ! ExecutorUpdated(execId, state, message, exitStatus)
           if (ExecutorState.isFinished(state)) {
             val jobInfo = idToJob(jobId)
             // Remove this executor from the worker and job
@@ -156,7 +156,8 @@ private[spark] class Master(ip: String, port: Int, webUiPort: Int) extends Actor
     if (spreadOutJobs) {
       // Try to spread out each job among all the nodes, until it has all its cores
       for (job <- waitingJobs if job.coresLeft > 0) {
-        val usableWorkers = workers.toArray.filter(canUse(job, _)).sortBy(_.coresFree).reverse
+        val usableWorkers = workers.toArray.filter(_.state == WorkerState.ALIVE)
+          .filter(canUse(job, _)).sortBy(_.coresFree).reverse
         val numUsable = usableWorkers.length
         val assigned = new Array[Int](numUsable) // Number of cores to give on each node
         var toAssign = math.min(job.coresLeft, usableWorkers.map(_.coresFree).sum)
@@ -203,6 +204,8 @@ private[spark] class Master(ip: String, port: Int, webUiPort: Int) extends Actor
 
   def addWorker(id: String, host: String, port: Int, cores: Int, memory: Int, webUiPort: Int,
     publicAddress: String): WorkerInfo = {
+    // There may be one or more refs to dead workers on this same node (w/ different ID's), remove them.
+    workers.filter(w => (w.host == host) && (w.state == WorkerState.DEAD)).foreach(workers -= _)
     val worker = new WorkerInfo(id, host, port, cores, memory, sender, webUiPort, publicAddress)
     workers += worker
     idToWorker(worker.id) = worker
@@ -213,12 +216,12 @@ private[spark] class Master(ip: String, port: Int, webUiPort: Int) extends Actor
 
   def removeWorker(worker: WorkerInfo) {
     logInfo("Removing worker " + worker.id + " on " + worker.host + ":" + worker.port)
-    workers -= worker
+    worker.setState(WorkerState.DEAD)
     idToWorker -= worker.id
     actorToWorker -= worker.actor
     addressToWorker -= worker.actor.path.address
     for (exec <- worker.executors.values) {
-      exec.job.actor ! ExecutorStateChanged(exec.job.id, exec.id, ExecutorState.LOST, None)
+      exec.job.actor ! ExecutorStateChanged(exec.job.id, exec.id, ExecutorState.LOST, None, None)
       exec.job.executors -= exec.id
     }
   }
