@@ -195,7 +195,9 @@ private[spark] class BlockManagerMasterActor(val isLocal: Boolean) extends Actor
 
   def removeBlockManager(blockManagerId: BlockManagerId) {
     val info = blockManagerInfo(blockManagerId)
+    logDebug("remove " + blockManagerId.ip)
     blockManagerIdByHost.remove(blockManagerId.ip)
+    logDebug("remove " + blockManagerId)
     blockManagerInfo.remove(blockManagerId)
     var iterator = info.blocks.keySet.iterator
     while (iterator.hasNext) {
@@ -203,6 +205,7 @@ private[spark] class BlockManagerMasterActor(val isLocal: Boolean) extends Actor
       val locations = blockInfo.get(blockId)._2
       locations -= blockManagerId
       if (locations.size == 0) {
+        logDebug("remove block locations " + locations)
         blockInfo.remove(locations)
       }
     }
