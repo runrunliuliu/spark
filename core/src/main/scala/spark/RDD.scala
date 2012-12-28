@@ -60,12 +60,12 @@ import SparkContext._
  *
  * Internally, each RDD is characterized by five main properties:
  *
- *  - A list of splits (partitions)
- *  - A function for computing each split
- *  - A list of dependencies on other RDDs
- *  - Optionally, a Partitioner for key-value RDDs (e.g. to say that the RDD is hash-partitioned)
- *  - Optionally, a list of preferred locations to compute each split on (e.g. block locations for
- *    an HDFS file)
+ * - A list of splits (partitions)
+ * - A function for computing each split
+ * - A list of dependencies on other RDDs
+ * - Optionally, a Partitioner for key-value RDDs (e.g. to say that the RDD is hash-partitioned)
+ * - Optionally, a list of preferred locations to compute each split on (e.g. block locations for
+ * an HDFS file)
  *
  * All of the scheduling and execution in Spark is done based on these methods, allowing each RDD
  * to implement its own way of computing itself. Indeed, users can implement custom RDDs (e.g. for
@@ -77,37 +77,37 @@ abstract class RDD[T: ClassManifest](@transient sc: SparkContext) extends Serial
 
   // Methods that must be implemented by subclasses:
 
-  /** Set of partitions in this RDD. */
+  /**Set of partitions in this RDD. */
   def splits: Array[Split]
 
-  /** Function for computing a given partition. */
+  /**Function for computing a given partition. */
   def compute(split: Split): Iterator[T]
 
-  /** How this RDD depends on any parent RDDs. */
+  /**How this RDD depends on any parent RDDs. */
   @transient val dependencies: List[Dependency[_]]
 
   // Methods available on all RDDs:
 
-  /** Record user function generating this RDD. */
+  /**Record user function generating this RDD. */
   private[spark] val origin = Utils.getSparkCallSite
 
-  /** Optionally overridden by subclasses to specify how they are partitioned. */
+  /**Optionally overridden by subclasses to specify how they are partitioned. */
   val partitioner: Option[Partitioner] = None
 
-  /** Optionally overridden by subclasses to specify placement preferences. */
+  /**Optionally overridden by subclasses to specify placement preferences. */
   def preferredLocations(split: Split): Seq[String] = Nil
 
-  /** The [[spark.SparkContext]] that this RDD was created on. */
+  /**The [[spark.SparkContext]] that this RDD was created on. */
   def context = sc
 
   private[spark] def elementClassManifest: ClassManifest[T] = classManifest[T]
 
-  /** A unique ID for this RDD (within its SparkContext). */
+  /**A unique ID for this RDD (within its SparkContext). */
   val id = sc.newRddId()
 
   // Variables relating to persistence
-  // private var storageLevel: StorageLevel = StorageLevel.NONE
-  private var storageLevel: StorageLevel = StorageLevel.MEMORY_ONLY
+  private var storageLevel: StorageLevel = StorageLevel.NONE
+  //private var storageLevel: StorageLevel = StorageLevel.MEMORY_ONLY
 
   /**
    * Set this RDD's storage level to persist its values across operations after the first time
@@ -123,13 +123,13 @@ abstract class RDD[T: ClassManifest](@transient sc: SparkContext) extends Serial
     this
   }
 
-  /** Persist this RDD with the default storage level (`MEMORY_ONLY`). */
+  /**Persist this RDD with the default storage level (`MEMORY_ONLY`). */
   def persist(): RDD[T] = persist(StorageLevel.MEMORY_ONLY)
 
-  /** Persist this RDD with the default storage level (`MEMORY_ONLY`). */
+  /**Persist this RDD with the default storage level (`MEMORY_ONLY`). */
   def cache(): RDD[T] = persist()
 
-  /** Get the RDD's current storage level, or StorageLevel.NONE if none is set. */
+  /**Get the RDD's current storage level, or StorageLevel.NONE if none is set. */
   def getStorageLevel = storageLevel
 
   private[spark] def checkpoint(level: StorageLevel = StorageLevel.MEMORY_AND_DISK_2): RDD[T] = {
@@ -142,7 +142,7 @@ abstract class RDD[T: ClassManifest](@transient sc: SparkContext) extends Serial
     def getSplitKey(split: Split) = "rdd_%d_%d".format(this.id, split.index)
 
     persist(level)
-    sc.runJob(this, (iter: Iterator[T]) => {} )
+    sc.runJob(this, (iter: Iterator[T]) => {})
 
     val p = this.partitioner
 
@@ -172,8 +172,8 @@ abstract class RDD[T: ClassManifest](@transient sc: SparkContext) extends Serial
   def map[U: ClassManifest](f: T => U): RDD[U] = new MappedRDD(this, sc.clean(f))
 
   /**
-   *  Return a new RDD by first applying a function to all elements of this
-   *  RDD, and then flattening the results.
+   * Return a new RDD by first applying a function to all elements of this
+   * RDD, and then flattening the results.
    */
   def flatMap[U: ClassManifest](f: T => TraversableOnce[U]): RDD[U] =
     new FlatMappedRDD(this, sc.clean(f))
@@ -212,7 +212,7 @@ abstract class RDD[T: ClassManifest](@transient sc: SparkContext) extends Serial
       total = maxSelected
       fraction = math.min(multiplier * (maxSelected + 1) / initialCount, 1.0)
     } else if (num < 0) {
-      throw(new IllegalArgumentException("Negative number of elements requested"))
+      throw (new IllegalArgumentException("Negative number of elements requested"))
     } else {
       fraction = math.min(multiplier * (num + 1) / initialCount, 1.0)
       total = num
@@ -285,16 +285,16 @@ abstract class RDD[T: ClassManifest](@transient sc: SparkContext) extends Serial
    * Return a new RDD by applying a function to each partition of this RDD.
    */
   def mapPartitions[U: ClassManifest](f: Iterator[T] => Iterator[U],
-    preservesPartitioning: Boolean = false): RDD[U] =
+                                      preservesPartitioning: Boolean = false): RDD[U] =
     new MapPartitionsRDD(this, sc.clean(f), preservesPartitioning)
 
-   /**
+  /**
    * Return a new RDD by applying a function to each partition of this RDD, while tracking the index
    * of the original partition.
    */
   def mapPartitionsWithSplit[U: ClassManifest](
-    f: (Int, Iterator[T]) => Iterator[U],
-    preservesPartitioning: Boolean = false): RDD[U] =
+                                                f: (Int, Iterator[T]) => Iterator[U],
+                                                preservesPartitioning: Boolean = false): RDD[U] =
     new MapPartitionsWithSplitRDD(this, sc.clean(f), preservesPartitioning)
 
   /**
@@ -336,7 +336,7 @@ abstract class RDD[T: ClassManifest](@transient sc: SparkContext) extends Serial
     val reducePartition: Iterator[T] => Option[T] = iter => {
       if (iter.hasNext) {
         Some(iter.reduceLeft(cleanF))
-      }else {
+      } else {
         None
       }
     }
@@ -376,7 +376,7 @@ abstract class RDD[T: ClassManifest](@transient sc: SparkContext) extends Serial
     val cleanSeqOp = sc.clean(seqOp)
     val cleanCombOp = sc.clean(combOp)
     val results = sc.runJob(this,
-        (iter: Iterator[T]) => iter.aggregate(zeroValue)(cleanSeqOp, cleanCombOp))
+      (iter: Iterator[T]) => iter.aggregate(zeroValue)(cleanSeqOp, cleanCombOp))
     return results.fold(zeroValue)(cleanCombOp)
   }
 
@@ -399,13 +399,14 @@ abstract class RDD[T: ClassManifest](@transient sc: SparkContext) extends Serial
    * within a timeout, even if not all tasks have finished.
    */
   def countApprox(timeout: Long, confidence: Double = 0.95): PartialResult[BoundedDouble] = {
-    val countElements: (TaskContext, Iterator[T]) => Long = { (ctx, iter) =>
-      var result = 0L
-      while (iter.hasNext) {
-        result += 1L
-        iter.next
-      }
-      result
+    val countElements: (TaskContext, Iterator[T]) => Long = {
+      (ctx, iter) =>
+        var result = 0L
+        while (iter.hasNext) {
+          result += 1L
+          iter.next
+        }
+        result
     }
     val evaluator = new CountEvaluator(splits.size, confidence)
     sc.runApproximateJob(this, countElements, evaluator, timeout)
@@ -434,23 +435,24 @@ abstract class RDD[T: ClassManifest](@transient sc: SparkContext) extends Serial
       return m1
     }
     val myResult = mapPartitions(countPartition).reduce(mergeMaps)
-    myResult.asInstanceOf[java.util.Map[T, Long]]   // Will be wrapped as a Scala mutable Map
+    myResult.asInstanceOf[java.util.Map[T, Long]] // Will be wrapped as a Scala mutable Map
   }
 
   /**
    * (Experimental) Approximate version of countByValue().
    */
   def countByValueApprox(
-      timeout: Long,
-      confidence: Double = 0.95
-      ): PartialResult[Map[T, BoundedDouble]] = {
-    val countPartition: (TaskContext, Iterator[T]) => OLMap[T] = { (ctx, iter) =>
-      val map = new OLMap[T]
-      while (iter.hasNext) {
-        val v = iter.next()
-        map.put(v, map.getLong(v) + 1L)
-      }
-      map
+                          timeout: Long,
+                          confidence: Double = 0.95
+                          ): PartialResult[Map[T, BoundedDouble]] = {
+    val countPartition: (TaskContext, Iterator[T]) => OLMap[T] = {
+      (ctx, iter) =>
+        val map = new OLMap[T]
+        while (iter.hasNext) {
+          val v = iter.next()
+          map.put(v, map.getLong(v) + 1L)
+        }
+        map
     }
     val evaluator = new GroupedCountEvaluator[T](splits.size, confidence)
     sc.runApproximateJob(this, countPartition, evaluator, timeout)
@@ -503,7 +505,7 @@ abstract class RDD[T: ClassManifest](@transient sc: SparkContext) extends Serial
       .saveAsSequenceFile(path)
   }
 
-  /** A private method for tests, to look at the contents of each partition */
+  /**A private method for tests, to look at the contents of each partition */
   private[spark] def collectPartitions(): Array[Array[T]] = {
     sc.runJob(this, (iter: Iterator[T]) => iter.toArray)
   }

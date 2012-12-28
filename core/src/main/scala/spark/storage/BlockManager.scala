@@ -120,6 +120,8 @@ class BlockManager(actorSystem: ActorSystem, val master: BlockManagerMaster,
 
   var heartBeatTask: Cancellable = null
 
+  initLogging()
+
   initialize()
 
   /**
