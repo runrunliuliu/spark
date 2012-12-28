@@ -233,7 +233,9 @@ private[spark] class BlockManagerMasterActor(val isLocal: Boolean) extends Actor
 
   def heartBeat(blockManagerId: BlockManagerId) {
     if (!blockManagerInfo.contains(blockManagerId)) {
+      logDebug("blockManagerInfo do not contains "+ blockManagerId)
       if (blockManagerId.ip == Utils.localHostName() && !isLocal) {
+        logDebug("local host and master node, send true")
         sender ! true
       } else {
         sender ! false

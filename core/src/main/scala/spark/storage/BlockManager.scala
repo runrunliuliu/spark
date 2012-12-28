@@ -114,6 +114,7 @@ class BlockManager(actorSystem: ActorSystem, val master: BlockManagerMaster,
 
   private def heartBeat() {
     if (!master.mustHeartBeat(HeartBeat(blockManagerId))) {
+      logDebug("no heartBeat for " + blockManagerId + " reregister")
       reregister()
     }
   }
@@ -136,6 +137,7 @@ class BlockManager(actorSystem: ActorSystem, val master: BlockManagerMaster,
    * BlockManagerWorker actor.
    */
   private def initialize() {
+    logInfo("Initializing BlockManager.....")
     master.mustRegisterBlockManager(
       RegisterBlockManager(blockManagerId, maxMemory))
     BlockManagerWorker.startBlockManagerWorker(this)
