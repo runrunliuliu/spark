@@ -195,14 +195,8 @@ private[spark] class BlockManagerMasterActor(val isLocal: Boolean) extends Actor
 
   def removeBlockManager(blockManagerId: BlockManagerId) {
 
-    val info = blockManagerInfo.get(blockManagerId)
-
-    logDebug("remove " + blockManagerId.ip)
-    blockManagerIdByHost.remove(blockManagerId.ip)
-    logDebug("remove " + blockManagerId)
-    blockManagerInfo.remove(blockManagerId)
-
-    if (info!=None){
+    if (blockManagerInfo.contains(blockManagerId)){
+      val info = blockManagerInfo(blockManagerId)
       var iterator = info.blocks.keySet.iterator
       while (iterator.hasNext) {
         val blockId = iterator.next
@@ -213,7 +207,11 @@ private[spark] class BlockManagerMasterActor(val isLocal: Boolean) extends Actor
           blockInfo.remove(locations)
         }
       }
+      logDebug("remove " + blockManagerId)
+      blockManagerInfo.remove(blockManagerId)
     }
+    logDebug("remove " + blockManagerId.ip)
+    blockManagerIdByHost.remove(blockManagerId.ip)
   }
 
   def expireDeadHosts() {
